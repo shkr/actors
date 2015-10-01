@@ -1,4 +1,4 @@
-package org.shkr.actors.staticactor
+package org.shkr.actors.statictyped
 
 import akka.typed.ScalaDSL._
 import akka.typed._
