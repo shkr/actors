@@ -2,8 +2,9 @@ package org.shkr.actors.cluster
 
 import akka.cluster.Cluster
 import akka.cluster.ClusterEvent._
-import akka.actor.ActorLogging
-import akka.actor.Actor
+import akka.actor.{Props, ActorSystem, ActorLogging, Actor}
+import com.typesafe.config.ConfigFactory
+
 /**
  * ClusterActor
  * The Cluster Listener
@@ -19,6 +20,7 @@ class ClusterListener extends Actor with ActorLogging {
       classOf[MemberEvent], classOf[UnreachableMember])
     //#subscribe
   }
+
   override def postStop(): Unit = cluster.unsubscribe(self)
 
   def receive = {
@@ -31,5 +33,22 @@ class ClusterListener extends Actor with ActorLogging {
       log.info("Member is Removed: {} after {}",
         member.address, previousStatus)
     case _: MemberEvent => // ignore
+  }
+}
+
+object ClusterListener {
+
+  def main(ports: Array[String]): Unit = {
+    ports foreach { port =>
+      // Override the configuration of the port
+      val config = ConfigFactory.parseString("akka.remote.netty.tcp.port=" + port).
+        withFallback(ConfigFactory.parseString("akka.cluster.roles = [listener]")).
+        withFallback(ConfigFactory.load())
+
+      // Create an Akka system
+      val system = ActorSystem("ClusterSystem", config)
+      // Create an actor that handles cluster domain events
+      system.actorOf(Props[ClusterListener], name = "clusterActor")
+    }
   }
 }
