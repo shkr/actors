@@ -9,17 +9,13 @@ import scala.concurrent.duration._
 import scala.concurrent.ExecutionContext.Implicits.global
 
 /**
- * An application which sends a message to the StaticActor actor "sanskaar" decorated with Props
+ * An actor system is setup, then the driver thread sends a message to the StaticActor actor "sanskaar" decorated with Props
  * using the “ask” pattern (represented by the ? operator)
  * reference : http://doc.akka.io/docs/akka/snapshot/scala/typed.html
  */
 object StaticActorApp {
 
   def main(args: Array[String]): Unit ={
-    staticActor
-  }
-
-  def staticActor: Unit={
 
     import StaticActor.Message._
     import StaticActor._
