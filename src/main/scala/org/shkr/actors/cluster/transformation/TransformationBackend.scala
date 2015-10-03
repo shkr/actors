@@ -43,7 +43,10 @@ object TransformationBackend {
       withFallback(ConfigFactory.parseString("akka.cluster.roles = [backend]")).
       withFallback(ConfigFactory.load())
 
-    val system = ActorSystem("ClusterSystem", config)
-    system.actorOf(Props[TransformationBackend], name = "backend")
+    val system: ActorSystem = ActorSystem("ClusterSystem", config)
+
+    Cluster(system) registerOnMemberUp {
+      system.actorOf(Props[TransformationBackend], name = "backend")
+    }
   }
 }
