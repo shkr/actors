@@ -1,4 +1,4 @@
-package org.shkr.actors.cluster.transformation
+package org.shkr.actors.basic.cluster.transformation
 
 import java.util.concurrent.atomic.AtomicInteger
 
@@ -7,7 +7,7 @@ import akka.cluster.Cluster
 import akka.pattern.ask
 import akka.util.Timeout
 import com.typesafe.config.ConfigFactory
-import Messages._
+import Message._
 import scala.concurrent.duration._
 
 /**

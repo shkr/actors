@@ -1,11 +1,10 @@
-package org.shkr.actors.cluster.transformation
+package org.shkr.actors.basic.cluster.transformation
 
 import akka.actor._
 import akka.cluster.ClusterEvent.{CurrentClusterState, MemberUp}
 import akka.cluster.{Cluster, Member, MemberStatus}
 import com.typesafe.config.ConfigFactory
-import Messages._
-
+import Message._
 /**
  * TransformationBackend
  */

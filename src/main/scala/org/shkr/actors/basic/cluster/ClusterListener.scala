@@ -1,13 +1,12 @@
-package org.shkr.actors.cluster
+package org.shkr.actors.basic.cluster
 
 import akka.cluster.Cluster
 import akka.cluster.ClusterEvent._
 import akka.actor.{Props, ActorSystem, ActorLogging, Actor}
 import com.typesafe.config.ConfigFactory
-
 /**
+ *
  * ClusterActor
- * The Cluster Listener
  */
 class ClusterListener extends Actor with ActorLogging {
 

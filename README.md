@@ -16,7 +16,7 @@ so that you are familiar with how the application is configured.
 Note : this project uses the `akka.cluster.ClusterActorRefProvider` as the default actor provider.
  
 
-### org.shkr.actors.statictyped : Static Typed Actors
+### org.shkr.actors.basic.typed : Static Typed Actors
 ---
 
   * An actor system (name = sanskaar) is setup, then the driver thread sends a message of type Pranam to the system 
@@ -24,11 +24,11 @@ Note : this project uses the `akka.cluster.ClusterActorRefProvider` as the defau
     reference : http://doc.akka.io/docs/akka/snapshot/scala/typed.html
 
 ```
-> sbt "runMain org.shkr.actors.statictyped.StaticActorApp"
+> sbt "runMain org.shkr.actors.basic.typed.StaticActor"
  
 ```
 
-### org.shkr.actors.cluster.ClusterListener : Simple Peer-to-Peer Akka Cluster with Remote Actors 
+### org.shkr.actors.basic.cluster.ClusterListener : Simple Peer-to-Peer Akka Cluster with Remote Actors 
 ---
  * `INTRODUCTION` An akka Cluster provides a fault-tolerant decentralized peer-to-peer based cluster membership service 
     with no single point of failure or single point of bottleneck. It does this using gossip protocols 
@@ -43,11 +43,11 @@ Note : this project uses the `akka.cluster.ClusterActorRefProvider` as the defau
     reference : http://doc.akka.io/docs/akka/snapshot/scala/cluster-usage.html
 
 ```
-> sbt "runMain org.shkr.actors.cluster.ClusterListener 2551"  
+> sbt "runMain org.shkr.actors.basic.cluster.ClusterListener 2551"  
  # This creates a ClusterListener Remote actor which registers itself as the first seed node of the Akka Cluster
 ```
 
-### org.shkr.actors.cluster.transformation : Back-end Worker Dial-In by Front-end Remote actor accepting requests Example 
+### org.shkr.actors.basic.cluster.transformation : Back-end Worker Dial-In by Front-end Remote actor accepting requests Example 
 ---
   * An actor system is linked to (name = "ClusterSystem") and the main method takes as input port number,
     then starts a TransformationFrontEnd Listener Remote Actor on that port
@@ -59,10 +59,10 @@ Note : this project uses the `akka.cluster.ClusterActorRefProvider` as the defau
     reference : http://doc.akka.io/docs/akka/snapshot/scala/cluster-usage.html
 
 ```
-> sbt "runMain org.shkr.actors.cluster.transformation.TransformationFrontend 2552" 
+> sbt "runMain org.shkr.actors.basic.cluster.transformation.TransformationFrontend 2552" 
  # This creates a TransformationFrontend Remote actor; The main method also schedules a TransformationJob
    for each 2 second interval which it sends to the TransformationFrontend Remote Actor
-> sbt sbt "runMain org.shkr.actors.cluster.transformation.TransformationBackend 2553"  
+> sbt sbt "runMain org.shkr.actors.basic.cluster.transformation.TransformationBackend 2553"  
  # This creates a TransformationBackend Remote actor which registers itself and listens to MemberUp events;
    In addition it informs the TransformationFrontend that it has registered itself, and does the
    any TransformationJob sent to it;
