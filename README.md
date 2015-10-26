@@ -4,9 +4,8 @@ A collection of actor-systems defined for different [akka projects](http://akka.
 I have written these down to understand, play and build applications based on the akka projects; They 
 may also serve as tutorial code for myself to refer in the future.
 
-Always clean and compile the project before usage; It is good practise to glance through the conf/application.conf file 
+It is good practise to glance through the conf/application.conf file 
 so that you are familiar with how the application is configured.  
-
 ```
 > sbt clean
 
@@ -16,7 +15,7 @@ so that you are familiar with how the application is configured.
 Note : this project uses the `akka.cluster.ClusterActorRefProvider` as the default actor provider.
  
 
-### org.shkr.actors.basic.typed : Static Typed Actors
+### org.shkr.actors.basic.typed : Akka Typed
 ---
 
   * An actor system (name = sanskaar) is setup, then the driver thread sends a message of type Pranam to the system 
@@ -69,6 +68,17 @@ Note : this project uses the `akka.cluster.ClusterActorRefProvider` as the defau
 ```
 
 
-## TODO
+### org.shkr.actors.play.diningphilosophers : A Play of the [Dining Philisophers](https://en.wikipedia.org/wiki/Dining_philosophers_problem)
 ---
-1. I will add descriptive comments in the application.conf file;
+  * An actor system is linked to (name = "DiningPhilisophers") and using a LocalActorRefProvider,
+    we enact the Dining Philosophers.
+  * The actor system is configured inside the [Configuration](https://github.com/shkr/actors/blob/master/src/main/scala/org/shkr/actors/play/diningphilosophers/Configuration.scala)
+    object which specifies the thinkingTime, eatingTime and the playTime
+
+```
+> sbt "runMain org.shkr.actors.play.diningphilosophers.Stage" 
+```
+
+#### TODO
+---
+I will add descriptive comments in the application.conf file
