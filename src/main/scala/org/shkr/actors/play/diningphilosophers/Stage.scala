@@ -1,6 +1,6 @@
 package org.shkr.actors.play.diningphilosophers
 
-import akka.actor.{Props, ActorSystem}
+import akka.actor.{ActorRef, Props, ActorSystem}
 import com.typesafe.config.ConfigFactory
 
 object Stage {
@@ -16,8 +16,13 @@ object Stage {
         }
       """.stripMargin)
     val system: ActorSystem = ActorSystem("DiningPhilosophers", config)
+    val chopsticksBox: ActorRef = system.actorOf(Props[ChopsticksBox], "SilverChopsticks")
+    val philosophers: Set[String] = Set[String]("Plato", "Descartes", "Chanakya", "Kant", "Krishna", "Shiva", "Dostoevosky")
 
-    system.actorOf(Props[Philosopher], "Plato")
+    for(philosopher <- philosophers){
+      system.actorOf(Props(classOf[Philosopher], chopsticksBox), philosopher)
+      Thread.sleep(Configuration.philosopherEntryIntervalTime)
+    }
 
     // Schedules a shutdown of the DiningPhilosophers
     // system after [[Configuration.playTime]]
