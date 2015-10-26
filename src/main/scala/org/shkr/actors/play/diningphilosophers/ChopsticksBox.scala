@@ -3,10 +3,8 @@ package org.shkr.actors.play.diningphilosophers
 import akka.actor.{Actor, ActorLogging}
 import org.shkr.actors.play.diningphilosophers.Message._
 
-class ChopsticksBox extends Actor with ActorLogging {
+class ChopsticksBox(var totalChopsticks: Int) extends Actor with ActorLogging {
   
-  var totalChopsticks: Int = Configuration.chopstickBoxSize
-
   def receive: Actor.Receive={
     case take @ (PickLeftChopstick | PickRightChopstick) => {
       log.info("Receive request for a chopstick.")
@@ -20,7 +18,7 @@ class ChopsticksBox extends Actor with ActorLogging {
     }
     case PutChopstick => {
       totalChopsticks += 1
-      log.info(s"Total Chopstick in Box = $totalChopsticks")
+      log.info(s"Total Chopsticks in Box = $totalChopsticks")
     }
   }
 }

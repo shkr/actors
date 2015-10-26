@@ -37,17 +37,22 @@ class ClusterListener extends Actor with ActorLogging {
 
 object ClusterListener {
 
-  def main(ports: Array[String]): Unit = {
-    ports foreach { port =>
-      // Override the configuration of the port
-      val config = ConfigFactory.parseString("akka.remote.netty.tcp.port=" + port).
-        withFallback(ConfigFactory.parseString("akka.cluster.roles = [listener]")).
-        withFallback(ConfigFactory.load())
+  def main(args: Array[String]): Unit = {
 
-      // Create an Akka system
-      val system = ActorSystem("ClusterSystem", config)
-      // Create an actor that handles cluster domain events
-      system.actorOf(Props[ClusterListener], name = "clusterActor")
-    }
+    println(Console.BLUE_B + Console.WHITE + "usage with input: sbt" +
+      " runMain 'org.shkr.actors.basic.cluster.ClusterListener <port[Int]>"
+      + Console.RESET)
+
+    val port: Int = args.headOption.getOrElse("2551").toInt
+
+    val config = ConfigFactory.parseString("akka.remote.netty.tcp.port=" + port).
+      withFallback(ConfigFactory.parseString("akka.cluster.roles = [listener]")).
+      withFallback(Configuration.config)
+
+    // Create an Akka system
+    val system = ActorSystem("ClusterSystem", config)
+
+    // Create an actor that listens to cluster domain events
+    system.actorOf(Props[ClusterListener], name = "clusterActor")
   }
 }

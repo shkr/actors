@@ -5,10 +5,12 @@ import akka.cluster.ClusterEvent.{CurrentClusterState, MemberUp}
 import akka.cluster.{Cluster, Member, MemberStatus}
 import com.typesafe.config.ConfigFactory
 import Message._
+import org.shkr.actors.basic.cluster.Configuration
+
 /**
- * TransformationBackend
+ * Backend
  */
-class TransformationBackend extends Actor with ActorLogging {
+class Backend extends Actor with ActorLogging {
 
   val cluster: Cluster = Cluster(context.system)
 
@@ -18,7 +20,7 @@ class TransformationBackend extends Actor with ActorLogging {
   override def postStop(): Unit = cluster.unsubscribe(self)
 
   def receive = {
-    case TransformationJob(text) => sender() ! TransformationResult(text.toUpperCase)
+    case TransformationJob(text) => sender() ! TransformationResult(sender().path.name, text.toUpperCase, self.path.name)
     case state: CurrentClusterState =>
       state.members.filter(_.status == MemberStatus.Up) foreach register
     case MemberUp(m) => register(m)
@@ -27,25 +29,31 @@ class TransformationBackend extends Actor with ActorLogging {
   def register(member: Member): Unit =
     if (member.hasRole("frontend")) {
         log.info("Member is Up: {} with roles: {}", member.address, member.roles)
-        context.actorSelection(RootActorPath(member.address) / "user" / "frontend") ! BackendRegistration
+        context.actorSelection(RootActorPath(member.address) / "user" / "*") ! BackendRegistration
     }
-
 }
 
-//#backend
-object TransformationBackend {
+object Backend {
 
   def main(args: Array[String]): Unit = {
-    // Override the configuration of the port when specified as program argument
-    val port = if (args.isEmpty) "0" else args(0)
+
+    println(Console.BLUE_B + Console.WHITE + "usage with input: sbt" +
+      " runMain 'org.shkr.actors.basic.cluster.transformation.Backend <port[Int]>," +
+      " <totalActors[Int]>'"
+      + Console.RESET)
+
+    val port: Int = args.headOption.getOrElse("2553").toInt
+    val totalActors: Int  = args.drop(1).headOption.getOrElse("1").toInt
+
     val config = ConfigFactory.parseString(s"akka.remote.netty.tcp.port=$port").
       withFallback(ConfigFactory.parseString("akka.cluster.roles = [backend]")).
-      withFallback(ConfigFactory.load())
+      withFallback(Configuration.config)
 
-    val system: ActorSystem = ActorSystem("ClusterSystem", config)
+    val system = ActorSystem("ClusterSystem", config)
 
     Cluster(system) registerOnMemberUp {
-      system.actorOf(Props[TransformationBackend], name = "backend")
+      val backend: IndexedSeq[ActorRef] = Range(0, totalActors)
+        .map(id => system.actorOf(Props[Backend], name = s"backend_$id"))
     }
   }
 }
