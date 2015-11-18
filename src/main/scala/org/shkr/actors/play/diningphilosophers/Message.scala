@@ -5,7 +5,7 @@ package org.shkr.actors.play.diningphilosophers
  */
 object Message {
 
-  trait Activity
+  sealed trait Activity
   case object Eat extends Activity
   case object Think extends Activity
   case object PickLeftChopstick extends Activity
