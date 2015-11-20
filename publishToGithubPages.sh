@@ -1,8 +1,7 @@
-INPUT <<< $1
-PROJECT = INPUT[0]
-echo PROJECT
+read -ra INPUT <<< $1
+PROJECT=${INPUT[0]}
 git init
-git remote add scaladoc git@github.com:shkr/actors.git
+git remote add scaladoc git@github.com:shkr/$PROJECT.git
 git fetch --depth=1 scaladoc gh-pages
 git add --all
 git commit -m "scaldoc v0.1"

@@ -1,0 +1,4 @@
+read -ra INPUT <<< $1
+PROJECT=${INPUT[0]}
+echo $PROJECT
+
