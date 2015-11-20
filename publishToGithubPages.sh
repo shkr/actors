@@ -1,3 +1,6 @@
+INPUT <<< $1
+PROJECT = INPUT[0]
+echo PROJECT
 git init
 git remote add scaladoc git@github.com:shkr/actors.git
 git fetch --depth=1 scaladoc gh-pages
