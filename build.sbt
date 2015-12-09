@@ -7,8 +7,17 @@ scalaVersion := "2.11.7"
 resolvers += "Typesafe Repository" at "http://repo.typesafe.com/typesafe/releases/"
 
 libraryDependencies ++= Seq(
-  "com.typesafe.akka" %% "akka-actor" % "2.4-M3",
-  "com.typesafe.akka" %% "akka-typed-experimental" % "2.4-M3",
-  "com.typesafe.akka" %% "akka-cluster" % "2.4-M3",
-  "com.typesafe.akka" %% "akka-cluster-metrics" % "2.4.0"
+  //Actors
+  "com.typesafe.akka" %% "akka-actor" % "2.4.1",
+
+  //Typed Actors
+  "com.typesafe.akka" %% "akka-typed-experimental" % "2.4.1",
+
+  //Cluster
+  "com.typesafe.akka" %% "akka-cluster" % "2.4.1",
+
+  //Persistence
+  "com.typesafe.akka" %% "akka-persistence" % "2.4.1",
+  "org.iq80.leveldb"  % "leveldb" % "0.7",
+  "org.fusesource.leveldbjni" % "leveldbjni-all"   % "1.8"
 )
