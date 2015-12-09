@@ -2,6 +2,7 @@
 
 A collection of actor-systems defined on [akka](http://akka.io/docs/) by typesafe.
 
+[API Documentation](http://shkr.github.io/actors)
 
 #### PreStart
 ```
