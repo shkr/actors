@@ -65,11 +65,16 @@ A collection of actor-systems defined on [akka](http://akka.io/docs/) by typesaf
 > sbt "runMain org.shkr.actors.play.diningphilosophers.Stage 8 4"
 ```
 
-#### actors.persistence : A simple ledger example using Akka Persistence with LevelDB and Local FileSystem
+#### actors.persistence : Akka Persistence
 ---
-  * An actor system is created, and a Ledger Actor is intantiated to which some random transactions is sent. At the end 
+  * Ledger Example
+   * An actor system is created, and a Ledger Actor is intantiated to which some random transactions is sent. At the end 
     of which we save a snapshot and print the current-time state of the Ledger
-  * The actor system is configured inside the [Configuration](https://github.com/shkr/actors/blob/master/src/main/scala/org/shkr/actors/persistence/Configuration.scala)
+   * The persistence plugin used is the LevelDB and Local FileSystem which is available as part of akka-persistence.
+     Additionally these two imports will have to be added to the build file :
+      - "org.iq80.leveldb"  % "leveldb" % "0.7",
+      - "org.fusesource.leveldbjni" % "leveldbjni-all"   % "1.8"
+   * The actor system is configured inside the [Configuration](https://github.com/shkr/actors/blob/master/src/main/scala/org/shkr/actors/persistence/Configuration.scala)
 
 ```
 > sbt "runMain org.shkr.actors.persistence.Ledger Sonia"
