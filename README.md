@@ -65,7 +65,7 @@ A collection of actor-systems defined on [akka](http://akka.io/docs/) by typesaf
 > sbt "runMain org.shkr.actors.play.diningphilosophers.Stage 8 4"
 ```
 
-#### actors.persistence : Akka Persistence
+#### actors.persistence : [Akka Persistence](http://doc.akka.io/docs/akka/snapshot/scala/persistence.html)
 ---
   * Ledger Example
    * An actor system is created, and a Ledger Actor is intantiated to which some random transactions is sent. At the end 
