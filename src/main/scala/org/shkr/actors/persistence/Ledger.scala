@@ -75,7 +75,7 @@ object Ledger {
     ledger ! SNAP
     ledger ! PRINT
 
-    Thread.sleep(1000)
+    Thread.sleep(5000)
     system.terminate()
   }
 }
